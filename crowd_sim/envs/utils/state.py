@@ -45,6 +45,5 @@ class JointState(object):
         assert isinstance(self_state, FullState)
         for human_state in human_states:
             assert isinstance(human_state, ObservableState)
-
         self.self_state = self_state
         self.human_states = human_states

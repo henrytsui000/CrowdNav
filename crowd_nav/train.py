@@ -55,7 +55,7 @@ def main():
     logging.basicConfig(level=level, handlers=[stdout_handler, file_handler],
                         format='%(asctime)s, %(levelname)s: %(message)s', datefmt="%Y-%m-%d %H:%M:%S")
     repo = git.Repo(search_parent_directories=True)
-    logging.info('Current git head hash code: %s'.format(repo.head.object.hexsha))
+    logging.info('Current git head hash code: %s'%format(repo.head.object.hexsha))
     device = torch.device("cuda:0" if torch.cuda.is_available() and args.gpu else "cpu")
     logging.info('Using device: %s', device)
 
@@ -144,7 +144,7 @@ def main():
         explorer.run_k_episodes(100, 'train', update_memory=True, episode=0)
         logging.info('Experience set size: %d/%d', len(memory), memory.capacity)
     episode = 0
-    while episode < train_episodes:
+    while episode < 1000:
         if args.resume:
             epsilon = epsilon_end
         else:

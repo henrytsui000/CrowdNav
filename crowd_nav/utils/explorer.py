@@ -2,6 +2,7 @@ import logging
 import copy
 import torch
 from crowd_sim.envs.utils.info import *
+import crowd_sim.envs.utils.state as OB
 
 
 class Explorer(object):
@@ -41,6 +42,7 @@ class Explorer(object):
             while not done:
                 action = self.robot.act(ob)
                 ob, reward, done, info = self.env.step(action)
+                # ob = [OB.ObservableState(_, _, 0, 0, 0) for _ in range(5) ]
                 states.append(self.robot.policy.last_state)
                 actions.append(action)
                 rewards.append(reward)

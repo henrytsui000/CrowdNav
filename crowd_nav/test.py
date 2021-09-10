@@ -10,6 +10,9 @@ from crowd_nav.policy.policy_factory import policy_factory
 from crowd_sim.envs.utils.robot import Robot
 from crowd_sim.envs.policy.orca import ORCA
 
+import crowd_sim.envs.utils.state as OB
+import crowd_sim.envs.utils.action as AC
+
 
 def main():
     parser = argparse.ArgumentParser('Parse configuration file')
@@ -63,6 +66,7 @@ def main():
     env_config.read(env_config_file)
     env = gym.make('CrowdSim-v0')
     env.configure(env_config)
+    print("ENV", env)
     if args.square:
         env.test_sim = 'square_crossing'
     if args.circle:
@@ -89,13 +93,23 @@ def main():
     if args.visualize:
         ob = env.reset(args.phase, args.test_case)
         done = False
+        print("typ", type(ob), ob[0])
         last_pos = np.array(robot.get_position())
         while not done:
-            action = robot.act(ob)
+            prk = [OB.ObservableState(_, _, 0, 0, 0) for _ in range(5) ]
+            action = robot.act(prk)
+            robot.tt()
+            # print("the_fuck", the_fuck)
+            print("CEHCK: ", type(prk), prk[0])
+            print("act", type(action), ', ', action)
+            # action = AC.ActionXY(0.1 ,0)
             ob, _, done, info = env.step(action)
+
             current_pos = np.array(robot.get_position())
             logging.debug('Speed: %.2f', np.linalg.norm(current_pos - last_pos) / robot.time_step)
             last_pos = current_pos
+
+            # print("deb : ", info)
         if args.traj:
             env.render('traj', args.video_file)
         else:

@@ -10,5 +10,9 @@ class Robot(Agent):
         if self.policy is None:
             raise AttributeError('Policy attribute has to be set!')
         state = JointState(self.get_full_state(), ob)
+        # print("INNN")
+        # print(ob, "TT", ob[1])
         action = self.policy.predict(state)
         return action
+    def tt(self):
+        self.px = 10000
